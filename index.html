@@ -1,0 +1,1948 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delulu Coffee POS</title>
+  <style>
+:root {
+  color-scheme: light;
+  --bg: #f7f3ec;
+  --panel: #fffaf2;
+  --ink: #221b16;
+  --muted: #7b6b5f;
+  --line: #ded2c2;
+  --accent: #2f6f5e;
+  --accent-dark: #214e43;
+  --danger: #a73c34;
+  --warn: #9b6518;
+  --soft: #e8f0dc;
+  --shadow: 0 12px 32px rgba(42, 31, 22, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0.7rem 0.95rem;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: var(--accent);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.primary:hover {
+  background: var(--accent-dark);
+}
+
+.ghost {
+  background: transparent;
+}
+
+.full {
+  width: 100%;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  padding: 0.7rem 0.8rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+textarea {
+  resize: vertical;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 0.75rem;
+  text-align: left;
+  vertical-align: middle;
+}
+
+th {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.error-text {
+  min-height: 1.2rem;
+  color: var(--danger);
+}
+
+.eyebrow {
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+.stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.login-shell {
+  display: grid;
+  min-height: 100vh;
+  place-items: center;
+  padding: 1.5rem;
+}
+
+.login-panel {
+  display: grid;
+  gap: 2rem;
+  width: min(440px, 100%);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+}
+
+.login-panel h1,
+.sidebar h2,
+.topbar h1,
+section h2 {
+  margin: 0;
+}
+
+.app-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-right: 1px solid var(--line);
+  background: #fff8ee;
+  padding: 1.25rem;
+}
+
+.nav-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.nav-button {
+  text-align: left;
+}
+
+.nav-button.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.user-box {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.user-box span {
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.workspace {
+  min-width: 0;
+  padding: 1.25rem;
+}
+
+.topbar,
+.section-head,
+.button-row,
+.top-actions,
+.summary-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.topbar {
+  margin-bottom: 1.25rem;
+}
+
+.top-actions {
+  flex-wrap: wrap;
+}
+
+.view {
+  display: none;
+}
+
+.view.active {
+  display: block;
+}
+
+.counter-grid,
+.editor-grid,
+.settings-grid,
+.summary-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 1rem;
+  align-items: start;
+}
+
+.settings-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-bottom: 1rem;
+}
+
+.summary-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.menu-card,
+.editor-panel,
+.order-panel,
+.recipe-panel,
+.summary-cards section,
+.summary-grid section {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  padding: 1rem;
+}
+
+.menu-card {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.menu-card img,
+.thumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  background: #eee3d4;
+  object-fit: cover;
+}
+
+.menu-card h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.menu-card p {
+  margin: 0;
+}
+
+.price {
+  font-weight: 800;
+}
+
+.badge {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  background: var(--soft);
+  color: var(--accent-dark);
+  padding: 0.25rem 0.55rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.badge.warn {
+  background: #f9e2ba;
+  color: var(--warn);
+}
+
+.cart-list {
+  display: grid;
+  gap: 0.75rem;
+  min-height: 180px;
+  margin-top: 1rem;
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.75rem;
+}
+
+.qty-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.qty-row button {
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0;
+}
+
+.totals {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2px solid var(--line);
+  margin: 1rem 0;
+  padding-top: 1rem;
+  font-size: 1.15rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.checkbox-row input {
+  width: auto;
+}
+
+.alerts {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.alert {
+  border: 1px solid #edc281;
+  border-radius: 8px;
+  background: #fff1d7;
+  color: #6c420c;
+  padding: 0.75rem;
+}
+
+.recipe-panel {
+  margin-top: 1rem;
+}
+
+.recipe-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 0.8rem;
+  margin: 1rem 0;
+}
+
+.recipe-card {
+  display: grid;
+  gap: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 0.8rem;
+}
+
+.summary-controls {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.summary-controls label {
+  min-width: 190px;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.summary-cards strong {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.receipt-dialog {
+  width: min(520px, calc(100vw - 2rem));
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--ink);
+}
+
+.receipt-text {
+  white-space: pre-wrap;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: #fff;
+  padding: 1rem;
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.empty {
+  color: var(--muted);
+  padding: 1rem;
+}
+
+.search {
+  max-width: 260px;
+}
+
+@media (max-width: 980px) {
+  .app-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .counter-grid,
+  .editor-grid,
+  .settings-grid,
+  .summary-grid,
+  .summary-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .topbar,
+  .section-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .search {
+    max-width: none;
+  }
+}
+
+</style>
+</head>
+<body>
+  <main id="loginView" class="login-shell">
+    <section class="login-panel">
+      <div>
+        <p class="eyebrow">Established 2026</p>
+        <h1>Delulu Coffee</h1>
+        <p class="muted">Point of service system</p>
+      </div>
+      <form id="loginForm" class="stack">
+        <label>
+          Username
+          <input id="loginUsername" autocomplete="username" required>
+        </label>
+        <label>
+          Password
+          <input id="loginPassword" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="primary" type="submit">Log In</button>
+        <p id="loginError" class="error-text" role="alert"></p>
+      </form>
+    </section>
+  </main>
+
+  <main id="appView" class="app-shell hidden">
+    <aside class="sidebar">
+      <div>
+        <p class="eyebrow">Delulu Coffee</p>
+        <h2>POS</h2>
+      </div>
+      <nav class="nav-list" aria-label="Main">
+        <button class="nav-button active" data-view="counterView">Selling Counter</button>
+        <button class="nav-button admin-only" data-view="menuView">Menus</button>
+        <button class="nav-button admin-only" data-view="ingredientView">Ingredients</button>
+        <button class="nav-button" data-view="summaryView">Sale Summary</button>
+        <button class="nav-button admin-only" data-view="settingsView">Settings</button>
+      </nav>
+      <div class="user-box">
+        <strong id="sessionName"></strong>
+        <span id="sessionRole"></span>
+        <button id="logoutButton" class="ghost" type="button">Log Out</button>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <h1 id="viewTitle">Selling Counter</h1>
+          <p id="syncStatus" class="muted">Local data ready</p>
+        </div>
+        <div class="top-actions">
+          <button id="loadSheetsButton" type="button">Sync From Sheets</button>
+          <button id="saveSheetsButton" type="button">Save To Sheets</button>
+        </div>
+      </header>
+
+      <section id="counterView" class="view active">
+        <div class="counter-grid">
+          <section>
+            <div class="section-head">
+              <div>
+                <h2>Menu</h2>
+                <p id="orderTime" class="muted"></p>
+              </div>
+              <input id="menuSearch" class="search" placeholder="Search menu">
+            </div>
+            <div id="menuGrid" class="menu-grid"></div>
+          </section>
+
+          <section class="order-panel">
+            <div class="section-head">
+              <h2>Current Order</h2>
+              <button id="clearCartButton" type="button">Clear</button>
+            </div>
+            <div id="cartList" class="cart-list"></div>
+            <div class="totals">
+              <span>Total</span>
+              <strong id="cartTotal">THB 0.00</strong>
+            </div>
+            <button id="submitOrderButton" class="primary full" type="button">Submit Order</button>
+          </section>
+        </div>
+      </section>
+
+      <section id="menuView" class="view">
+        <div class="editor-grid">
+          <form id="menuForm" class="editor-panel stack">
+            <h2 id="menuFormTitle">Add Menu</h2>
+            <input id="menuId" type="hidden">
+            <label>Name <input id="menuName" required></label>
+            <label>Price (THB) <input id="menuPrice" type="number" min="0" step="0.01" required></label>
+            <label>Description <textarea id="menuDescription" rows="3"></textarea></label>
+            <label>Photo URL <input id="menuPhoto"></label>
+            <label>Or Upload Photo <input id="menuPhotoFile" type="file" accept="image/*"></label>
+            <label class="checkbox-row"><input id="menuActive" type="checkbox" checked> Active for sale</label>
+            <div class="button-row">
+              <button class="primary" type="submit">Save Menu</button>
+              <button id="resetMenuFormButton" type="button">New</button>
+            </div>
+          </form>
+          <section>
+            <div class="section-head">
+              <h2>Menu List</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Menu</th><th>Price</th><th>Status</th><th></th></tr></thead>
+                <tbody id="menuTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="ingredientView" class="view">
+        <div class="editor-grid">
+          <form id="ingredientForm" class="editor-panel stack">
+            <h2 id="ingredientFormTitle">Add Ingredient</h2>
+            <input id="ingredientId" type="hidden">
+            <label>Name <input id="ingredientName" required></label>
+            <label>Stock <input id="ingredientStock" type="number" min="0" step="0.01" required></label>
+            <label>Unit <input id="ingredientUnit" placeholder="g, ml, pcs" required></label>
+            <label>Warn Below <input id="ingredientWarnBelow" type="number" min="0" step="0.01" required></label>
+            <label>Price per Unit (THB) <input id="ingredientPrice" type="number" min="0" step="0.01"></label>
+            <label>Description <textarea id="ingredientDescription" rows="3"></textarea></label>
+            <label>Photo URL <input id="ingredientPhoto"></label>
+            <label>Or Upload Photo <input id="ingredientPhotoFile" type="file" accept="image/*"></label>
+            <label class="checkbox-row"><input id="ingredientActive" type="checkbox" checked> Active ingredient</label>
+            <div class="button-row">
+              <button class="primary" type="submit">Save Ingredient</button>
+              <button id="resetIngredientFormButton" type="button">New</button>
+            </div>
+          </form>
+
+          <section>
+            <div class="section-head">
+              <h2>Stock</h2>
+            </div>
+            <div id="stockAlerts" class="alerts"></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Ingredient</th><th>Stock</th><th>Cost</th><th></th></tr></thead>
+                <tbody id="ingredientTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <section class="recipe-panel">
+          <div class="section-head">
+            <div>
+              <h2>Menu Recipes</h2>
+              <p class="muted">Quantity used per one menu item.</p>
+            </div>
+            <select id="recipeMenuSelect"></select>
+          </div>
+          <div id="recipeEditor" class="recipe-grid"></div>
+          <button id="saveRecipeButton" class="primary" type="button">Save Recipe</button>
+        </section>
+      </section>
+
+      <section id="summaryView" class="view">
+        <div class="summary-controls">
+          <label>Month <input id="summaryMonth" type="month"></label>
+          <label>Year <input id="summaryYear" type="number" min="2026" max="2100"></label>
+          <button id="refreshSummaryButton" type="button">Refresh</button>
+        </div>
+        <div class="summary-cards">
+          <section>
+            <h2>Monthly Net Income</h2>
+            <strong id="monthlyIncome">THB 0.00</strong>
+          </section>
+          <section>
+            <h2>Yearly Net Income</h2>
+            <strong id="yearlyIncome">THB 0.00</strong>
+          </section>
+        </div>
+        <div class="summary-grid">
+          <section>
+            <h2>Net Sale by Menu</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Menu</th><th>Qty</th><th>Income</th></tr></thead>
+                <tbody id="menuSummaryBody"></tbody>
+              </table>
+            </div>
+          </section>
+          <section>
+            <h2>Ingredient Usage</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Ingredient</th><th>Used</th><th>Cost</th></tr></thead>
+                <tbody id="ingredientSummaryBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="settingsView" class="view">
+        <div class="settings-grid">
+          <form id="settingsForm" class="editor-panel stack">
+            <h2>Google Sheets</h2>
+            <label>Web App URL <input id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec"></label>
+            <button class="primary" type="submit">Save Settings</button>
+            <p class="muted">Use the Apps Script file in this project to connect your spreadsheet.</p>
+          </form>
+
+          <form id="userForm" class="editor-panel stack">
+            <h2 id="userFormTitle">Add Staff</h2>
+            <input id="userId" type="hidden">
+            <label>Name <input id="userName" required></label>
+            <label>Username <input id="username" required></label>
+            <label>Password <input id="password" type="password" required></label>
+            <label>Role
+              <select id="userRole">
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
+            </label>
+            <label class="checkbox-row"><input id="userActive" type="checkbox" checked> Active user</label>
+            <div class="button-row">
+              <button class="primary" type="submit">Save User</button>
+              <button id="resetUserFormButton" type="button">New</button>
+            </div>
+          </form>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th></th></tr></thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="receiptDialog" class="receipt-dialog">
+    <div class="section-head">
+      <h2>Receipt</h2>
+      <button id="closeReceiptButton" type="button">Close</button>
+    </div>
+    <pre id="receiptText" class="receipt-text"></pre>
+    <div class="button-row">
+      <button id="printReceiptButton" class="primary" type="button">Print</button>
+      <button id="saveReceiptButton" type="button">Save .docx</button>
+    </div>
+  </dialog>
+
+  <template id="emptyTemplate">
+    <p class="empty">No records yet.</p>
+  </template>
+
+  <script>
+const STORAGE_KEY = "delulu-pos-data-v1";
+const SETTINGS_KEY = "delulu-pos-settings-v1";
+
+const SHEET_NAMES = {
+  users: "Users",
+  menus: "Menus",
+  ingredients: "Ingredients",
+  recipes: "Recipes",
+  orders: "Orders",
+  orderItems: "OrderItems",
+  ingredientUsage: "IngredientUsage"
+};
+
+const CURRENCY = new Intl.NumberFormat("en-TH", {
+  style: "currency",
+  currency: "THB"
+});
+
+const state = {
+  session: null,
+  cart: [],
+  receipt: null,
+  settings: loadSettings(),
+  data: loadData()
+};
+
+const dom = {};
+
+document.addEventListener("DOMContentLoaded", () => {
+  cacheDom();
+  bindEvents();
+  hydrateSettings();
+  setDefaultSummaryFilters();
+  renderAll();
+  updateOrderClock();
+  setInterval(updateOrderClock, 1000);
+});
+
+function cacheDom() {
+  [
+    "loginView", "appView", "loginForm", "loginUsername", "loginPassword", "loginError",
+    "sessionName", "sessionRole", "logoutButton", "syncStatus", "viewTitle",
+    "loadSheetsButton", "saveSheetsButton", "menuGrid", "menuSearch", "cartList",
+    "cartTotal", "clearCartButton", "submitOrderButton", "orderTime",
+    "menuForm", "menuFormTitle", "menuId", "menuName", "menuPrice", "menuDescription",
+    "menuPhoto", "menuPhotoFile", "menuActive", "resetMenuFormButton", "menuTableBody",
+    "ingredientForm", "ingredientFormTitle", "ingredientId", "ingredientName",
+    "ingredientStock", "ingredientUnit", "ingredientWarnBelow", "ingredientPrice",
+    "ingredientDescription", "ingredientPhoto", "ingredientPhotoFile", "ingredientActive",
+    "resetIngredientFormButton", "ingredientTableBody", "stockAlerts", "recipeMenuSelect",
+    "recipeEditor", "saveRecipeButton", "summaryMonth", "summaryYear", "refreshSummaryButton",
+    "monthlyIncome", "yearlyIncome", "menuSummaryBody", "ingredientSummaryBody",
+    "settingsForm", "scriptUrl", "userForm", "userFormTitle", "userId", "userName",
+    "username", "password", "userRole", "userActive", "resetUserFormButton",
+    "userTableBody", "receiptDialog", "receiptText", "closeReceiptButton",
+    "printReceiptButton", "saveReceiptButton"
+  ].forEach(id => dom[id] = document.getElementById(id));
+}
+
+function bindEvents() {
+  dom.loginForm.addEventListener("submit", handleLogin);
+  dom.logoutButton.addEventListener("click", logout);
+  document.querySelectorAll(".nav-button").forEach(button => {
+    button.addEventListener("click", () => switchView(button.dataset.view));
+  });
+
+  dom.menuSearch.addEventListener("input", renderMenuGrid);
+  dom.clearCartButton.addEventListener("click", () => {
+    state.cart = [];
+    renderCart();
+  });
+  dom.submitOrderButton.addEventListener("click", submitOrder);
+
+  dom.menuForm.addEventListener("submit", saveMenu);
+  dom.resetMenuFormButton.addEventListener("click", resetMenuForm);
+  dom.menuPhotoFile.addEventListener("change", event => readPhoto(event.target, dom.menuPhoto));
+
+  dom.ingredientForm.addEventListener("submit", saveIngredient);
+  dom.resetIngredientFormButton.addEventListener("click", resetIngredientForm);
+  dom.ingredientPhotoFile.addEventListener("change", event => readPhoto(event.target, dom.ingredientPhoto));
+  dom.recipeMenuSelect.addEventListener("change", renderRecipeEditor);
+  dom.saveRecipeButton.addEventListener("click", saveRecipe);
+
+  dom.refreshSummaryButton.addEventListener("click", renderSummary);
+  dom.settingsForm.addEventListener("submit", saveSettings);
+  dom.userForm.addEventListener("submit", saveUser);
+  dom.resetUserFormButton.addEventListener("click", resetUserForm);
+
+  dom.loadSheetsButton.addEventListener("click", syncFromSheets);
+  dom.saveSheetsButton.addEventListener("click", syncToSheets);
+
+  dom.closeReceiptButton.addEventListener("click", () => dom.receiptDialog.close());
+  dom.printReceiptButton.addEventListener("click", printReceipt);
+  dom.saveReceiptButton.addEventListener("click", saveReceiptDocx);
+}
+
+function loadSettings() {
+  const saved = localStorage.getItem(SETTINGS_KEY);
+  return saved ? JSON.parse(saved) : { scriptUrl: "" };
+}
+
+function loadData() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    return normalizeData(JSON.parse(saved));
+  }
+  return seedData();
+}
+
+function seedData() {
+  const milk = id();
+  const espresso = id();
+  const syrup = id();
+  const americano = id();
+  const latte = id();
+  const caramel = id();
+
+  return normalizeData({
+    users: [
+      { id: id(), name: "Admin", username: "admin", password: "admin2026", role: "admin", active: true },
+      { id: id(), name: "Staff", username: "staff", password: "staff2026", role: "staff", active: true }
+    ],
+    menus: [
+      {
+        id: americano,
+        name: "Delulu Americano",
+        price: 75,
+        description: "Double espresso with chilled water.",
+        photo: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80",
+        active: true
+      },
+      {
+        id: latte,
+        name: "Soft Launch Latte",
+        price: 95,
+        description: "Espresso with silky milk.",
+        photo: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=800&q=80",
+        active: true
+      },
+      {
+        id: caramel,
+        name: "Caramel Main Character",
+        price: 115,
+        description: "Latte with caramel syrup.",
+        photo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=800&q=80",
+        active: true
+      }
+    ],
+    ingredients: [
+      {
+        id: espresso,
+        name: "Espresso Shot",
+        stock: 150,
+        unit: "shot",
+        warnBelow: 20,
+        price: 12,
+        description: "Prepared espresso shot.",
+        photo: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=800&q=80",
+        active: true
+      },
+      {
+        id: milk,
+        name: "Milk",
+        stock: 12000,
+        unit: "ml",
+        warnBelow: 1500,
+        price: 0.06,
+        description: "Fresh milk for latte drinks.",
+        photo: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=800&q=80",
+        active: true
+      },
+      {
+        id: syrup,
+        name: "Caramel Syrup",
+        stock: 1800,
+        unit: "ml",
+        warnBelow: 250,
+        price: 0.4,
+        description: "Sweet caramel syrup.",
+        photo: "https://images.unsplash.com/photo-1606312619070-d48b4c652a52?auto=format&fit=crop&w=800&q=80",
+        active: true
+      }
+    ],
+    recipes: [
+      { id: id(), menuId: americano, ingredientId: espresso, quantity: 2 },
+      { id: id(), menuId: latte, ingredientId: espresso, quantity: 2 },
+      { id: id(), menuId: latte, ingredientId: milk, quantity: 180 },
+      { id: id(), menuId: caramel, ingredientId: espresso, quantity: 2 },
+      { id: id(), menuId: caramel, ingredientId: milk, quantity: 180 },
+      { id: id(), menuId: caramel, ingredientId: syrup, quantity: 25 }
+    ],
+    orders: [],
+    orderItems: [],
+    ingredientUsage: []
+  });
+}
+
+function normalizeData(data) {
+  const normalized = {};
+  Object.keys(SHEET_NAMES).forEach(key => normalized[key] = Array.isArray(data[key]) ? data[key] : []);
+
+  normalized.users = normalized.users.map(user => ({
+    id: String(user.id || id()),
+    name: String(user.name || ""),
+    username: String(user.username || ""),
+    password: String(user.password || ""),
+    role: user.role === "admin" ? "admin" : "staff",
+    active: toBool(user.active)
+  }));
+
+  normalized.menus = normalized.menus.map(menu => ({
+    id: String(menu.id || id()),
+    name: String(menu.name || ""),
+    price: toNumber(menu.price),
+    description: String(menu.description || ""),
+    photo: String(menu.photo || ""),
+    active: toBool(menu.active)
+  }));
+
+  normalized.ingredients = normalized.ingredients.map(ingredient => ({
+    id: String(ingredient.id || id()),
+    name: String(ingredient.name || ""),
+    stock: toNumber(ingredient.stock),
+    unit: String(ingredient.unit || ""),
+    warnBelow: toNumber(ingredient.warnBelow),
+    price: toNumber(ingredient.price),
+    description: String(ingredient.description || ""),
+    photo: String(ingredient.photo || ""),
+    active: toBool(ingredient.active)
+  }));
+
+  normalized.recipes = normalized.recipes.map(recipe => ({
+    id: String(recipe.id || id()),
+    menuId: String(recipe.menuId || ""),
+    ingredientId: String(recipe.ingredientId || ""),
+    quantity: toNumber(recipe.quantity)
+  })).filter(recipe => recipe.menuId && recipe.ingredientId);
+
+  normalized.orders = normalized.orders.map(order => ({
+    id: String(order.id || id()),
+    orderedAt: String(order.orderedAt || new Date().toISOString()),
+    staffName: String(order.staffName || ""),
+    total: toNumber(order.total)
+  }));
+
+  normalized.orderItems = normalized.orderItems.map(item => ({
+    id: String(item.id || id()),
+    orderId: String(item.orderId || ""),
+    menuId: String(item.menuId || ""),
+    menuName: String(item.menuName || ""),
+    qty: toNumber(item.qty),
+    unitPrice: toNumber(item.unitPrice),
+    total: toNumber(item.total)
+  }));
+
+  normalized.ingredientUsage = normalized.ingredientUsage.map(usage => ({
+    id: String(usage.id || id()),
+    orderId: String(usage.orderId || ""),
+    ingredientId: String(usage.ingredientId || ""),
+    ingredientName: String(usage.ingredientName || ""),
+    quantity: toNumber(usage.quantity),
+    cost: toNumber(usage.cost)
+  }));
+
+  return normalized;
+}
+
+function saveLocalData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.data));
+}
+
+function id() {
+  if (crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+}
+
+function toNumber(value) {
+  const number = Number(value);
+  return Number.isFinite(number) ? number : 0;
+}
+
+function toBool(value) {
+  if (typeof value === "boolean") return value;
+  return String(value).toLowerCase() !== "false" && String(value) !== "0";
+}
+
+function formatMoney(value) {
+  return CURRENCY.format(toNumber(value));
+}
+
+function escapeHtml(value) {
+  return String(value || "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  }[char]));
+}
+
+function handleLogin(event) {
+  event.preventDefault();
+  const username = dom.loginUsername.value.trim();
+  const password = dom.loginPassword.value;
+  const user = state.data.users.find(item =>
+    item.active && item.username === username && item.password === password
+  );
+
+  if (!user) {
+    dom.loginError.textContent = "Username or password is incorrect.";
+    return;
+  }
+
+  state.session = { id: user.id, name: user.name, role: user.role };
+  dom.loginError.textContent = "";
+  dom.loginForm.reset();
+  dom.loginView.classList.add("hidden");
+  dom.appView.classList.remove("hidden");
+  renderSession();
+  renderAll();
+}
+
+function logout() {
+  state.session = null;
+  state.cart = [];
+  dom.appView.classList.add("hidden");
+  dom.loginView.classList.remove("hidden");
+}
+
+function renderSession() {
+  if (!state.session) return;
+  dom.sessionName.textContent = state.session.name;
+  dom.sessionRole.textContent = state.session.role;
+  document.querySelectorAll(".admin-only").forEach(element => {
+    element.classList.toggle("hidden", state.session.role !== "admin");
+  });
+}
+
+function switchView(viewId) {
+  document.querySelectorAll(".nav-button").forEach(button => {
+    button.classList.toggle("active", button.dataset.view === viewId);
+  });
+  document.querySelectorAll(".view").forEach(view => {
+    view.classList.toggle("active", view.id === viewId);
+  });
+  const activeButton = document.querySelector(`.nav-button[data-view="${viewId}"]`);
+  dom.viewTitle.textContent = activeButton ? activeButton.textContent : "Delulu Coffee";
+  renderAll();
+}
+
+function renderAll() {
+  renderSession();
+  renderMenuGrid();
+  renderCart();
+  renderMenuTable();
+  renderIngredientTable();
+  renderStockAlerts();
+  renderRecipeMenuSelect();
+  renderRecipeEditor();
+  renderSummary();
+  renderUserTable();
+}
+
+function updateOrderClock() {
+  const now = new Date();
+  dom.orderTime.textContent = `Order time: ${now.toLocaleString()}`;
+}
+
+function renderMenuGrid() {
+  const query = dom.menuSearch.value.trim().toLowerCase();
+  const menus = state.data.menus
+    .filter(menu => menu.active)
+    .filter(menu => !query || `${menu.name} ${menu.description}`.toLowerCase().includes(query));
+
+  if (!menus.length) {
+    dom.menuGrid.innerHTML = emptyHtml("No active menus found.");
+    return;
+  }
+
+  dom.menuGrid.innerHTML = menus.map(menu => {
+    const status = getMenuAvailability(menu.id);
+    return `
+      <article class="menu-card">
+        <img src="${escapeHtml(menu.photo || placeholderImage(menu.name))}" alt="${escapeHtml(menu.name)}">
+        <div>
+          <h3>${escapeHtml(menu.name)}</h3>
+          <p class="muted">${escapeHtml(menu.description)}</p>
+        </div>
+        <p class="price">${formatMoney(menu.price)}</p>
+        <span class="badge ${status.available ? "" : "warn"}">${status.label}</span>
+        <button class="primary" type="button" ${status.available ? "" : "disabled"} data-add-menu="${menu.id}">Add</button>
+      </article>
+    `;
+  }).join("");
+
+  dom.menuGrid.querySelectorAll("[data-add-menu]").forEach(button => {
+    button.addEventListener("click", () => addToCart(button.dataset.addMenu));
+  });
+}
+
+function placeholderImage(text) {
+  const label = encodeURIComponent(text || "Delulu Coffee");
+  return `https://placehold.co/600x450/f2e5d2/2f6f5e?text=${label}`;
+}
+
+function getMenuAvailability(menuId) {
+  const recipes = state.data.recipes.filter(recipe => recipe.menuId === menuId && recipe.quantity > 0);
+  if (!recipes.length) {
+    return { available: true, label: "No recipe set" };
+  }
+
+  const missing = [];
+  recipes.forEach(recipe => {
+    const ingredient = state.data.ingredients.find(item => item.id === recipe.ingredientId && item.active);
+    if (!ingredient || ingredient.stock < recipe.quantity) {
+      missing.push(ingredient ? ingredient.name : "Unknown ingredient");
+    }
+  });
+
+  if (missing.length) {
+    return { available: false, label: `Out: ${missing.slice(0, 2).join(", ")}` };
+  }
+
+  return { available: true, label: "Available" };
+}
+
+function addToCart(menuId) {
+  const menu = state.data.menus.find(item => item.id === menuId);
+  if (!menu) return;
+  const line = state.cart.find(item => item.menuId === menuId);
+  if (line) {
+    line.qty += 1;
+  } else {
+    state.cart.push({ menuId, qty: 1 });
+  }
+  renderCart();
+}
+
+function renderCart() {
+  if (!state.cart.length) {
+    dom.cartList.innerHTML = emptyHtml("No items in this order.");
+    dom.cartTotal.textContent = formatMoney(0);
+    return;
+  }
+
+  dom.cartList.innerHTML = state.cart.map(line => {
+    const menu = state.data.menus.find(item => item.id === line.menuId);
+    if (!menu) return "";
+    return `
+      <div class="cart-item">
+        <div>
+          <strong>${escapeHtml(menu.name)}</strong>
+          <p class="muted">${formatMoney(menu.price)} each</p>
+        </div>
+        <div class="qty-row">
+          <button type="button" data-dec="${line.menuId}">-</button>
+          <strong>${line.qty}</strong>
+          <button type="button" data-inc="${line.menuId}">+</button>
+          <button type="button" data-remove="${line.menuId}">Remove</button>
+        </div>
+      </div>
+    `;
+  }).join("");
+
+  dom.cartTotal.textContent = formatMoney(getCartTotal());
+
+  dom.cartList.querySelectorAll("[data-inc]").forEach(button => {
+    button.addEventListener("click", () => changeCartQty(button.dataset.inc, 1));
+  });
+  dom.cartList.querySelectorAll("[data-dec]").forEach(button => {
+    button.addEventListener("click", () => changeCartQty(button.dataset.dec, -1));
+  });
+  dom.cartList.querySelectorAll("[data-remove]").forEach(button => {
+    button.addEventListener("click", () => removeCartItem(button.dataset.remove));
+  });
+}
+
+function changeCartQty(menuId, amount) {
+  const line = state.cart.find(item => item.menuId === menuId);
+  if (!line) return;
+  line.qty += amount;
+  if (line.qty <= 0) {
+    removeCartItem(menuId);
+  } else {
+    renderCart();
+  }
+}
+
+function removeCartItem(menuId) {
+  state.cart = state.cart.filter(item => item.menuId !== menuId);
+  renderCart();
+}
+
+function getCartTotal() {
+  return state.cart.reduce((total, line) => {
+    const menu = state.data.menus.find(item => item.id === line.menuId);
+    return total + (menu ? menu.price * line.qty : 0);
+  }, 0);
+}
+
+function submitOrder() {
+  if (!state.cart.length) {
+    alert("Add at least one menu item before submitting.");
+    return;
+  }
+
+  const stockCheck = checkCartStock();
+  if (!stockCheck.ok) {
+    alert(`Cannot submit order. Not enough stock:\n${stockCheck.messages.join("\n")}`);
+    renderMenuGrid();
+    return;
+  }
+
+  const orderId = id();
+  const orderedAt = new Date().toISOString();
+  const total = getCartTotal();
+  const order = {
+    id: orderId,
+    orderedAt,
+    staffName: state.session ? state.session.name : "",
+    total
+  };
+
+  const orderItems = [];
+  const usageByIngredient = new Map();
+
+  state.cart.forEach(line => {
+    const menu = state.data.menus.find(item => item.id === line.menuId);
+    if (!menu) return;
+    orderItems.push({
+      id: id(),
+      orderId,
+      menuId: menu.id,
+      menuName: menu.name,
+      qty: line.qty,
+      unitPrice: menu.price,
+      total: menu.price * line.qty
+    });
+
+    state.data.recipes
+      .filter(recipe => recipe.menuId === menu.id)
+      .forEach(recipe => {
+        const ingredient = state.data.ingredients.find(item => item.id === recipe.ingredientId);
+        if (!ingredient) return;
+        const quantity = recipe.quantity * line.qty;
+        ingredient.stock -= quantity;
+        const existing = usageByIngredient.get(ingredient.id) || {
+          id: id(),
+          orderId,
+          ingredientId: ingredient.id,
+          ingredientName: ingredient.name,
+          quantity: 0,
+          cost: 0
+        };
+        existing.quantity += quantity;
+        existing.cost += quantity * ingredient.price;
+        usageByIngredient.set(ingredient.id, existing);
+      });
+  });
+
+  state.data.orders.push(order);
+  state.data.orderItems.push(...orderItems);
+  state.data.ingredientUsage.push(...Array.from(usageByIngredient.values()));
+  state.receipt = buildReceipt(order, orderItems);
+  state.cart = [];
+  saveLocalData();
+  renderAll();
+  showReceipt();
+  setSyncStatus("Order saved locally. Use Save To Sheets to sync.");
+}
+
+function checkCartStock() {
+  const required = new Map();
+  state.cart.forEach(line => {
+    state.data.recipes
+      .filter(recipe => recipe.menuId === line.menuId)
+      .forEach(recipe => {
+        required.set(recipe.ingredientId, (required.get(recipe.ingredientId) || 0) + recipe.quantity * line.qty);
+      });
+  });
+
+  const messages = [];
+  required.forEach((quantity, ingredientId) => {
+    const ingredient = state.data.ingredients.find(item => item.id === ingredientId && item.active);
+    if (!ingredient) {
+      messages.push("Missing ingredient in recipe");
+    } else if (ingredient.stock < quantity) {
+      messages.push(`${ingredient.name}: need ${quantity} ${ingredient.unit}, have ${ingredient.stock} ${ingredient.unit}`);
+    }
+  });
+
+  return { ok: !messages.length, messages };
+}
+
+function buildReceipt(order, orderItems) {
+  const lines = [
+    "Delulu Coffee",
+    "established 2026",
+    "----------"
+  ];
+
+  orderItems.forEach(item => {
+    lines.push(`${item.menuName}  ${item.qty}  ${formatMoney(item.total)}`);
+  });
+
+  lines.push(`Total ${formatMoney(order.total)}`);
+  lines.push("Thank You");
+  return {
+    id: order.id,
+    text: lines.join("\n")
+  };
+}
+
+function showReceipt() {
+  if (!state.receipt) return;
+  dom.receiptText.textContent = state.receipt.text;
+  dom.receiptDialog.showModal();
+}
+
+function printReceipt() {
+  const receipt = dom.receiptText.textContent;
+  const printWindow = window.open("", "_blank", "width=420,height=640");
+  printWindow.document.write(`
+    <html><head><title>Delulu Coffee Receipt</title>
+    <style>body{font-family:Consolas,monospace;padding:24px;white-space:pre-wrap;}</style>
+    </head><body>${escapeHtml(receipt)}</body></html>
+  `);
+  printWindow.document.close();
+  printWindow.print();
+}
+
+function saveReceiptDocx() {
+  if (!state.receipt) return;
+  const blob = createDocxBlob(state.receipt.text);
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `Delulu-Receipt-${state.receipt.id}.docx`;
+  link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+function saveMenu(event) {
+  event.preventDefault();
+  const record = {
+    id: dom.menuId.value || id(),
+    name: dom.menuName.value.trim(),
+    price: toNumber(dom.menuPrice.value),
+    description: dom.menuDescription.value.trim(),
+    photo: dom.menuPhoto.value.trim(),
+    active: dom.menuActive.checked
+  };
+
+  if (!record.name) return;
+  const existingIndex = state.data.menus.findIndex(item => item.id === record.id);
+  if (existingIndex >= 0) {
+    state.data.menus[existingIndex] = record;
+  } else {
+    state.data.menus.push(record);
+  }
+
+  saveLocalData();
+  resetMenuForm();
+  renderAll();
+}
+
+function resetMenuForm() {
+  dom.menuForm.reset();
+  dom.menuId.value = "";
+  dom.menuActive.checked = true;
+  dom.menuFormTitle.textContent = "Add Menu";
+}
+
+function editMenu(menuId) {
+  const menu = state.data.menus.find(item => item.id === menuId);
+  if (!menu) return;
+  dom.menuId.value = menu.id;
+  dom.menuName.value = menu.name;
+  dom.menuPrice.value = menu.price;
+  dom.menuDescription.value = menu.description;
+  dom.menuPhoto.value = menu.photo;
+  dom.menuActive.checked = menu.active;
+  dom.menuFormTitle.textContent = "Edit Menu";
+}
+
+function deleteMenu(menuId) {
+  if (!confirm("Delete this menu? Sales history will remain.")) return;
+  state.data.menus = state.data.menus.filter(item => item.id !== menuId);
+  state.data.recipes = state.data.recipes.filter(item => item.menuId !== menuId);
+  saveLocalData();
+  renderAll();
+}
+
+function renderMenuTable() {
+  if (!state.data.menus.length) {
+    dom.menuTableBody.innerHTML = `<tr><td colspan="4">${emptyHtml("No menus yet.")}</td></tr>`;
+    return;
+  }
+
+  dom.menuTableBody.innerHTML = state.data.menus.map(menu => `
+    <tr>
+      <td><strong>${escapeHtml(menu.name)}</strong><br><span class="muted">${escapeHtml(menu.description)}</span></td>
+      <td>${formatMoney(menu.price)}</td>
+      <td>${menu.active ? "Active" : "Hidden"}</td>
+      <td class="table-actions">
+        <button type="button" data-edit-menu="${menu.id}">Edit</button>
+        <button type="button" data-delete-menu="${menu.id}">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+
+  dom.menuTableBody.querySelectorAll("[data-edit-menu]").forEach(button => {
+    button.addEventListener("click", () => editMenu(button.dataset.editMenu));
+  });
+  dom.menuTableBody.querySelectorAll("[data-delete-menu]").forEach(button => {
+    button.addEventListener("click", () => deleteMenu(button.dataset.deleteMenu));
+  });
+}
+
+function saveIngredient(event) {
+  event.preventDefault();
+  const record = {
+    id: dom.ingredientId.value || id(),
+    name: dom.ingredientName.value.trim(),
+    stock: toNumber(dom.ingredientStock.value),
+    unit: dom.ingredientUnit.value.trim(),
+    warnBelow: toNumber(dom.ingredientWarnBelow.value),
+    price: toNumber(dom.ingredientPrice.value),
+    description: dom.ingredientDescription.value.trim(),
+    photo: dom.ingredientPhoto.value.trim(),
+    active: dom.ingredientActive.checked
+  };
+
+  if (!record.name) return;
+  const existingIndex = state.data.ingredients.findIndex(item => item.id === record.id);
+  if (existingIndex >= 0) {
+    state.data.ingredients[existingIndex] = record;
+  } else {
+    state.data.ingredients.push(record);
+  }
+
+  saveLocalData();
+  resetIngredientForm();
+  renderAll();
+}
+
+function resetIngredientForm() {
+  dom.ingredientForm.reset();
+  dom.ingredientId.value = "";
+  dom.ingredientActive.checked = true;
+  dom.ingredientFormTitle.textContent = "Add Ingredient";
+}
+
+function editIngredient(ingredientId) {
+  const ingredient = state.data.ingredients.find(item => item.id === ingredientId);
+  if (!ingredient) return;
+  dom.ingredientId.value = ingredient.id;
+  dom.ingredientName.value = ingredient.name;
+  dom.ingredientStock.value = ingredient.stock;
+  dom.ingredientUnit.value = ingredient.unit;
+  dom.ingredientWarnBelow.value = ingredient.warnBelow;
+  dom.ingredientPrice.value = ingredient.price;
+  dom.ingredientDescription.value = ingredient.description;
+  dom.ingredientPhoto.value = ingredient.photo;
+  dom.ingredientActive.checked = ingredient.active;
+  dom.ingredientFormTitle.textContent = "Edit Ingredient";
+}
+
+function deleteIngredient(ingredientId) {
+  if (!confirm("Delete this ingredient? Recipes using it will be updated.")) return;
+  state.data.ingredients = state.data.ingredients.filter(item => item.id !== ingredientId);
+  state.data.recipes = state.data.recipes.filter(item => item.ingredientId !== ingredientId);
+  saveLocalData();
+  renderAll();
+}
+
+function renderIngredientTable() {
+  if (!state.data.ingredients.length) {
+    dom.ingredientTableBody.innerHTML = `<tr><td colspan="4">${emptyHtml("No ingredients yet.")}</td></tr>`;
+    return;
+  }
+
+  dom.ingredientTableBody.innerHTML = state.data.ingredients.map(ingredient => `
+    <tr>
+      <td><strong>${escapeHtml(ingredient.name)}</strong><br><span class="muted">${escapeHtml(ingredient.description)}</span></td>
+      <td>${ingredient.stock} ${escapeHtml(ingredient.unit)}<br><span class="muted">Warn below ${ingredient.warnBelow}</span></td>
+      <td>${formatMoney(ingredient.price)} / ${escapeHtml(ingredient.unit)}</td>
+      <td class="table-actions">
+        <button type="button" data-edit-ingredient="${ingredient.id}">Edit</button>
+        <button type="button" data-delete-ingredient="${ingredient.id}">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+
+  dom.ingredientTableBody.querySelectorAll("[data-edit-ingredient]").forEach(button => {
+    button.addEventListener("click", () => editIngredient(button.dataset.editIngredient));
+  });
+  dom.ingredientTableBody.querySelectorAll("[data-delete-ingredient]").forEach(button => {
+    button.addEventListener("click", () => deleteIngredient(button.dataset.deleteIngredient));
+  });
+}
+
+function renderStockAlerts() {
+  const alerts = state.data.ingredients.filter(item => item.active && item.stock <= item.warnBelow);
+  dom.stockAlerts.innerHTML = alerts.length
+    ? alerts.map(item => `<div class="alert">${escapeHtml(item.name)} is low: ${item.stock} ${escapeHtml(item.unit)} left.</div>`).join("")
+    : "";
+}
+
+function renderRecipeMenuSelect() {
+  const current = dom.recipeMenuSelect.value;
+  dom.recipeMenuSelect.innerHTML = state.data.menus.map(menu =>
+    `<option value="${menu.id}">${escapeHtml(menu.name)}</option>`
+  ).join("");
+  if (state.data.menus.some(menu => menu.id === current)) {
+    dom.recipeMenuSelect.value = current;
+  }
+}
+
+function renderRecipeEditor() {
+  const menuId = dom.recipeMenuSelect.value || (state.data.menus[0] && state.data.menus[0].id);
+  if (!menuId) {
+    dom.recipeEditor.innerHTML = emptyHtml("Add a menu before setting recipes.");
+    return;
+  }
+
+  if (!state.data.ingredients.length) {
+    dom.recipeEditor.innerHTML = emptyHtml("Add ingredients before setting recipes.");
+    return;
+  }
+
+  dom.recipeEditor.innerHTML = state.data.ingredients
+    .filter(ingredient => ingredient.active)
+    .map(ingredient => {
+      const recipe = state.data.recipes.find(item => item.menuId === menuId && item.ingredientId === ingredient.id);
+      return `
+        <label class="recipe-card">
+          <strong>${escapeHtml(ingredient.name)}</strong>
+          <span class="muted">${escapeHtml(ingredient.unit)} per menu item</span>
+          <input type="number" min="0" step="0.01" data-recipe-ingredient="${ingredient.id}" value="${recipe ? recipe.quantity : 0}">
+        </label>
+      `;
+    }).join("");
+}
+
+function saveRecipe() {
+  const menuId = dom.recipeMenuSelect.value;
+  if (!menuId) return;
+  state.data.recipes = state.data.recipes.filter(recipe => recipe.menuId !== menuId);
+  dom.recipeEditor.querySelectorAll("[data-recipe-ingredient]").forEach(input => {
+    const quantity = toNumber(input.value);
+    if (quantity > 0) {
+      state.data.recipes.push({
+        id: id(),
+        menuId,
+        ingredientId: input.dataset.recipeIngredient,
+        quantity
+      });
+    }
+  });
+  saveLocalData();
+  renderAll();
+  alert("Recipe saved.");
+}
+
+function setDefaultSummaryFilters() {
+  const now = new Date();
+  dom.summaryMonth.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  dom.summaryYear.value = now.getFullYear();
+}
+
+function renderSummary() {
+  const selectedMonth = dom.summaryMonth.value;
+  const selectedYear = Number(dom.summaryYear.value || new Date().getFullYear());
+  const monthlyOrders = state.data.orders.filter(order => order.orderedAt.slice(0, 7) === selectedMonth);
+  const yearlyOrders = state.data.orders.filter(order => new Date(order.orderedAt).getFullYear() === selectedYear);
+
+  dom.monthlyIncome.textContent = formatMoney(sum(monthlyOrders, "total"));
+  dom.yearlyIncome.textContent = formatMoney(sum(yearlyOrders, "total"));
+
+  const monthlyOrderIds = new Set(monthlyOrders.map(order => order.id));
+  const sales = aggregateOrderItems(monthlyOrderIds);
+  dom.menuSummaryBody.innerHTML = sales.length ? sales.map(row => `
+    <tr><td>${escapeHtml(row.name)}</td><td>${row.qty}</td><td>${formatMoney(row.total)}</td></tr>
+  `).join("") : `<tr><td colspan="3">${emptyHtml("No sales for this month.")}</td></tr>`;
+
+  const usage = aggregateIngredientUsage(monthlyOrderIds);
+  dom.ingredientSummaryBody.innerHTML = usage.length ? usage.map(row => `
+    <tr><td>${escapeHtml(row.name)}</td><td>${row.quantity}</td><td>${formatMoney(row.cost)}</td></tr>
+  `).join("") : `<tr><td colspan="3">${emptyHtml("No ingredient usage for this month.")}</td></tr>`;
+}
+
+function sum(records, key) {
+  return records.reduce((total, record) => total + toNumber(record[key]), 0);
+}
+
+function aggregateOrderItems(orderIds) {
+  const map = new Map();
+  state.data.orderItems
+    .filter(item => orderIds.has(item.orderId))
+    .forEach(item => {
+      const existing = map.get(item.menuName) || { name: item.menuName, qty: 0, total: 0 };
+      existing.qty += item.qty;
+      existing.total += item.total;
+      map.set(item.menuName, existing);
+    });
+  return Array.from(map.values()).sort((a, b) => b.total - a.total);
+}
+
+function aggregateIngredientUsage(orderIds) {
+  const map = new Map();
+  state.data.ingredientUsage
+    .filter(item => orderIds.has(item.orderId))
+    .forEach(item => {
+      const existing = map.get(item.ingredientName) || { name: item.ingredientName, quantity: 0, cost: 0 };
+      existing.quantity += item.quantity;
+      existing.cost += item.cost;
+      map.set(item.ingredientName, existing);
+    });
+  return Array.from(map.values()).sort((a, b) => b.cost - a.cost);
+}
+
+function saveSettings(event) {
+  event.preventDefault();
+  state.settings.scriptUrl = dom.scriptUrl.value.trim();
+  localStorage.setItem(SETTINGS_KEY, JSON.stringify(state.settings));
+  setSyncStatus("Settings saved.");
+}
+
+function hydrateSettings() {
+  dom.scriptUrl.value = state.settings.scriptUrl || "";
+}
+
+function saveUser(event) {
+  event.preventDefault();
+  const record = {
+    id: dom.userId.value || id(),
+    name: dom.userName.value.trim(),
+    username: dom.username.value.trim(),
+    password: dom.password.value,
+    role: dom.userRole.value,
+    active: dom.userActive.checked
+  };
+
+  if (!record.name || !record.username || !record.password) return;
+  const duplicate = state.data.users.find(user => user.username === record.username && user.id !== record.id);
+  if (duplicate) {
+    alert("That username already exists.");
+    return;
+  }
+
+  const existingIndex = state.data.users.findIndex(item => item.id === record.id);
+  if (existingIndex >= 0) {
+    state.data.users[existingIndex] = record;
+  } else {
+    state.data.users.push(record);
+  }
+
+  saveLocalData();
+  resetUserForm();
+  renderUserTable();
+}
+
+function resetUserForm() {
+  dom.userForm.reset();
+  dom.userId.value = "";
+  dom.userActive.checked = true;
+  dom.userRole.value = "staff";
+  dom.userFormTitle.textContent = "Add Staff";
+}
+
+function editUser(userId) {
+  const user = state.data.users.find(item => item.id === userId);
+  if (!user) return;
+  dom.userId.value = user.id;
+  dom.userName.value = user.name;
+  dom.username.value = user.username;
+  dom.password.value = user.password;
+  dom.userRole.value = user.role;
+  dom.userActive.checked = user.active;
+  dom.userFormTitle.textContent = "Edit Staff";
+}
+
+function deleteUser(userId) {
+  if (state.session && state.session.id === userId) {
+    alert("You cannot delete the user you are logged in as.");
+    return;
+  }
+  if (!confirm("Delete this user?")) return;
+  state.data.users = state.data.users.filter(item => item.id !== userId);
+  saveLocalData();
+  renderUserTable();
+}
+
+function renderUserTable() {
+  if (!dom.userTableBody) return;
+  dom.userTableBody.innerHTML = state.data.users.map(user => `
+    <tr>
+      <td>${escapeHtml(user.name)}</td>
+      <td>${escapeHtml(user.username)}</td>
+      <td>${escapeHtml(user.role)}</td>
+      <td>${user.active ? "Active" : "Disabled"}</td>
+      <td class="table-actions">
+        <button type="button" data-edit-user="${user.id}">Edit</button>
+        <button type="button" data-delete-user="${user.id}">Delete</button>
+      </td>
+    </tr>
+  `).join("");
+
+  dom.userTableBody.querySelectorAll("[data-edit-user]").forEach(button => {
+    button.addEventListener("click", () => editUser(button.dataset.editUser));
+  });
+  dom.userTableBody.querySelectorAll("[data-delete-user]").forEach(button => {
+    button.addEventListener("click", () => deleteUser(button.dataset.deleteUser));
+  });
+}
+
+async function readPhoto(input, targetInput) {
+  const file = input.files && input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    targetInput.value = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+async function syncFromSheets() {
+  if (!state.settings.scriptUrl) {
+    alert("Add the Google Apps Script Web App URL in Settings first.");
+    return;
+  }
+  setSyncStatus("Loading from Google Sheets...");
+  try {
+    const response = await fetch(`${state.settings.scriptUrl}?action=readAll&v=${Date.now()}`);
+    const payload = await response.json();
+    if (!payload.ok) throw new Error(payload.error || "Google Sheets returned an error.");
+    state.data = normalizeData(payload.data);
+    saveLocalData();
+    renderAll();
+    setSyncStatus("Loaded latest data from Google Sheets.");
+  } catch (error) {
+    console.error(error);
+    setSyncStatus("Could not load from Google Sheets.");
+    alert(`Sync failed: ${error.message}`);
+  }
+}
+
+async function syncToSheets() {
+  if (!state.settings.scriptUrl) {
+    alert("Add the Google Apps Script Web App URL in Settings first.");
+    return;
+  }
+  setSyncStatus("Saving to Google Sheets...");
+  try {
+    const response = await fetch(state.settings.scriptUrl, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ action: "writeAll", data: state.data })
+    });
+    const payload = await response.json();
+    if (!payload.ok) throw new Error(payload.error || "Google Sheets returned an error.");
+    setSyncStatus("Saved local data to Google Sheets.");
+  } catch (error) {
+    console.error(error);
+    setSyncStatus("Could not save to Google Sheets.");
+    alert(`Sync failed: ${error.message}`);
+  }
+}
+
+function setSyncStatus(message) {
+  dom.syncStatus.textContent = message;
+}
+
+function emptyHtml(message) {
+  return `<p class="empty">${escapeHtml(message)}</p>`;
+}
+
+function createDocxBlob(text) {
+  const paragraphs = text.split("\n").map(line =>
+    `<w:p><w:r><w:t xml:space="preserve">${escapeXml(line)}</w:t></w:r></w:p>`
+  ).join("");
+
+  const files = {
+    "[Content_Types].xml": `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`,
+    "_rels/.rels": `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`,
+    "word/document.xml": `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">
+  <w:body>${paragraphs}<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr></w:body>
+</w:document>`
+  };
+
+  return new Blob([makeZip(files)], {
+    type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  });
+}
+
+function escapeXml(value) {
+  return String(value || "").replace(/[<>&'"]/g, char => ({
+    "<": "&lt;",
+    ">": "&gt;",
+    "&": "&amp;",
+    "'": "&apos;",
+    '"': "&quot;"
+  }[char]));
+}
+
+function makeZip(files) {
+  const encoder = new TextEncoder();
+  const localParts = [];
+  const centralParts = [];
+  let offset = 0;
+
+  Object.entries(files).forEach(([name, content]) => {
+    const nameBytes = encoder.encode(name);
+    const data = encoder.encode(content);
+    const crc = crc32(data);
+
+    const localHeader = concatBytes(
+      u32(0x04034b50), u16(20), u16(0), u16(0), u16(0), u16(0),
+      u32(crc), u32(data.length), u32(data.length), u16(nameBytes.length), u16(0), nameBytes
+    );
+    localParts.push(localHeader, data);
+
+    const centralHeader = concatBytes(
+      u32(0x02014b50), u16(20), u16(20), u16(0), u16(0), u16(0), u16(0),
+      u32(crc), u32(data.length), u32(data.length), u16(nameBytes.length), u16(0), u16(0),
+      u16(0), u16(0), u32(0), u32(offset), nameBytes
+    );
+    centralParts.push(centralHeader);
+    offset += localHeader.length + data.length;
+  });
+
+  const centralSize = centralParts.reduce((total, part) => total + part.length, 0);
+  const end = concatBytes(
+    u32(0x06054b50), u16(0), u16(0), u16(Object.keys(files).length),
+    u16(Object.keys(files).length), u32(centralSize), u32(offset), u16(0)
+  );
+
+  return concatBytes(...localParts, ...centralParts, end);
+}
+
+function u16(value) {
+  const bytes = new Uint8Array(2);
+  new DataView(bytes.buffer).setUint16(0, value, true);
+  return bytes;
+}
+
+function u32(value) {
+  const bytes = new Uint8Array(4);
+  new DataView(bytes.buffer).setUint32(0, value >>> 0, true);
+  return bytes;
+}
+
+function concatBytes(...arrays) {
+  const length = arrays.reduce((total, array) => total + array.length, 0);
+  const result = new Uint8Array(length);
+  let offset = 0;
+  arrays.forEach(array => {
+    result.set(array, offset);
+    offset += array.length;
+  });
+  return result;
+}
+
+function crc32(data) {
+  let crc = -1;
+  for (let i = 0; i < data.length; i += 1) {
+    crc = (crc >>> 8) ^ crcTable[(crc ^ data[i]) & 0xff];
+  }
+  return (crc ^ -1) >>> 0;
+}
+
+const crcTable = (() => {
+  const table = new Uint32Array(256);
+  for (let i = 0; i < 256; i += 1) {
+    let c = i;
+    for (let k = 0; k < 8; k += 1) {
+      c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1;
+    }
+    table[i] = c >>> 0;
+  }
+  return table;
+})();
+
+</script>
+</body>
+</html>
