@@ -1,0 +1,277 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Delulu Coffee POS</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main id="loginView" class="login-shell">
+    <section class="login-panel">
+      <div>
+        <p class="eyebrow">Established 2026</p>
+        <h1>Delulu Coffee</h1>
+        <p class="muted">Point of service system</p>
+      </div>
+      <form id="loginForm" class="stack">
+        <label>
+          Username
+          <input id="loginUsername" autocomplete="username" required>
+        </label>
+        <label>
+          Password
+          <input id="loginPassword" type="password" autocomplete="current-password" required>
+        </label>
+        <button class="primary" type="submit">Log In</button>
+        <p id="loginError" class="error-text" role="alert"></p>
+      </form>
+    </section>
+  </main>
+
+  <main id="appView" class="app-shell hidden">
+    <aside class="sidebar">
+      <div>
+        <p class="eyebrow">Delulu Coffee</p>
+        <h2>POS</h2>
+      </div>
+      <nav class="nav-list" aria-label="Main">
+        <button class="nav-button active" data-view="counterView">Selling Counter</button>
+        <button class="nav-button admin-only" data-view="menuView">Menus</button>
+        <button class="nav-button admin-only" data-view="ingredientView">Ingredients</button>
+        <button class="nav-button" data-view="summaryView">Sale Summary</button>
+        <button class="nav-button admin-only" data-view="settingsView">Settings</button>
+      </nav>
+      <div class="user-box">
+        <strong id="sessionName"></strong>
+        <span id="sessionRole"></span>
+        <button id="logoutButton" class="ghost" type="button">Log Out</button>
+      </div>
+    </aside>
+
+    <section class="workspace">
+      <header class="topbar">
+        <div>
+          <h1 id="viewTitle">Selling Counter</h1>
+          <p id="syncStatus" class="muted">Local data ready</p>
+        </div>
+        <div class="top-actions">
+          <button id="loadSheetsButton" type="button">Sync From Sheets</button>
+          <button id="saveSheetsButton" type="button">Save To Sheets</button>
+        </div>
+      </header>
+
+      <section id="counterView" class="view active">
+        <div class="counter-grid">
+          <section>
+            <div class="section-head">
+              <div>
+                <h2>Menu</h2>
+                <p id="orderTime" class="muted"></p>
+              </div>
+              <input id="menuSearch" class="search" placeholder="Search menu">
+            </div>
+            <div id="menuGrid" class="menu-grid"></div>
+          </section>
+
+          <section class="order-panel">
+            <div class="section-head">
+              <h2>Current Order</h2>
+              <button id="clearCartButton" type="button">Clear</button>
+            </div>
+            <div id="cartList" class="cart-list"></div>
+            <div class="totals">
+              <span>Total</span>
+              <strong id="cartTotal">THB 0.00</strong>
+            </div>
+            <button id="submitOrderButton" class="primary full" type="button">Submit Order</button>
+          </section>
+        </div>
+      </section>
+
+      <section id="menuView" class="view">
+        <div class="editor-grid">
+          <form id="menuForm" class="editor-panel stack">
+            <h2 id="menuFormTitle">Add Menu</h2>
+            <input id="menuId" type="hidden">
+            <label>Name <input id="menuName" required></label>
+            <label>Price (THB) <input id="menuPrice" type="number" min="0" step="0.01" required></label>
+            <label>Description <textarea id="menuDescription" rows="3"></textarea></label>
+            <label>Photo URL <input id="menuPhoto"></label>
+            <label>Or Upload Photo <input id="menuPhotoFile" type="file" accept="image/*"></label>
+            <label class="checkbox-row"><input id="menuActive" type="checkbox" checked> Active for sale</label>
+            <div class="button-row">
+              <button class="primary" type="submit">Save Menu</button>
+              <button id="resetMenuFormButton" type="button">New</button>
+            </div>
+          </form>
+          <section>
+            <div class="section-head">
+              <h2>Menu List</h2>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Menu</th><th>Price</th><th>Status</th><th></th></tr></thead>
+                <tbody id="menuTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="ingredientView" class="view">
+        <div class="editor-grid">
+          <form id="ingredientForm" class="editor-panel stack">
+            <h2 id="ingredientFormTitle">Add Ingredient</h2>
+            <input id="ingredientId" type="hidden">
+            <label>Name <input id="ingredientName" required></label>
+            <label>Stock <input id="ingredientStock" type="number" min="0" step="0.01" required></label>
+            <label>Unit <input id="ingredientUnit" placeholder="g, ml, pcs" required></label>
+            <label>Warn Below <input id="ingredientWarnBelow" type="number" min="0" step="0.01" required></label>
+            <label>Price per Unit (THB) <input id="ingredientPrice" type="number" min="0" step="0.01"></label>
+            <label>Description <textarea id="ingredientDescription" rows="3"></textarea></label>
+            <label>Photo URL <input id="ingredientPhoto"></label>
+            <label>Or Upload Photo <input id="ingredientPhotoFile" type="file" accept="image/*"></label>
+            <label class="checkbox-row"><input id="ingredientActive" type="checkbox" checked> Active ingredient</label>
+            <div class="button-row">
+              <button class="primary" type="submit">Save Ingredient</button>
+              <button id="resetIngredientFormButton" type="button">New</button>
+            </div>
+          </form>
+
+          <section>
+            <div class="section-head">
+              <h2>Stock</h2>
+            </div>
+            <div id="stockAlerts" class="alerts"></div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Ingredient</th><th>Stock</th><th>Cost</th><th></th></tr></thead>
+                <tbody id="ingredientTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <section class="recipe-panel">
+          <div class="section-head">
+            <div>
+              <h2>Menu Recipes</h2>
+              <p class="muted">Quantity used per one menu item.</p>
+            </div>
+            <select id="recipeMenuSelect"></select>
+          </div>
+          <div id="recipeEditor" class="recipe-grid"></div>
+          <button id="saveRecipeButton" class="primary" type="button">Save Recipe</button>
+        </section>
+      </section>
+
+      <section id="summaryView" class="view">
+        <div class="summary-controls">
+          <label>Date <input id="summaryDate" type="date"></label>
+          <label>Month <input id="summaryMonth" type="month"></label>
+          <label>Year <input id="summaryYear" type="number" min="2026" max="2100"></label>
+          <button id="refreshSummaryButton" type="button">Refresh</button>
+        </div>
+        <div class="summary-cards">
+          <section>
+            <h2>Daily Net Income</h2>
+            <strong id="dailyIncome">THB 0.00</strong>
+          </section>
+          <section>
+            <h2>Monthly Net Income</h2>
+            <strong id="monthlyIncome">THB 0.00</strong>
+          </section>
+          <section>
+            <h2>Yearly Net Income</h2>
+            <strong id="yearlyIncome">THB 0.00</strong>
+          </section>
+        </div>
+        <div class="summary-grid">
+          <section>
+            <h2>Sale by Date</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Date</th><th>Orders</th><th>Items</th><th>Income</th></tr></thead>
+                <tbody id="dateSummaryBody"></tbody>
+              </table>
+            </div>
+          </section>
+          <section>
+            <h2>Net Sale by Menu</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Menu</th><th>Qty</th><th>Income</th></tr></thead>
+                <tbody id="menuSummaryBody"></tbody>
+              </table>
+            </div>
+          </section>
+          <section>
+            <h2>Ingredient Usage</h2>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>Ingredient</th><th>Used</th><th>Cost</th></tr></thead>
+                <tbody id="ingredientSummaryBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section id="settingsView" class="view">
+        <div class="settings-grid">
+          <form id="settingsForm" class="editor-panel stack">
+            <h2>Google Sheets</h2>
+            <label>Web App URL <input id="scriptUrl" placeholder="https://script.google.com/macros/s/.../exec"></label>
+            <button class="primary" type="submit">Save Settings</button>
+            <p class="muted">Use the Apps Script file in this project to connect your spreadsheet.</p>
+          </form>
+
+          <form id="userForm" class="editor-panel stack">
+            <h2 id="userFormTitle">Add Staff</h2>
+            <input id="userId" type="hidden">
+            <label>Name <input id="userName" required></label>
+            <label>Username <input id="username" required></label>
+            <label>Password <input id="password" type="password" required></label>
+            <label>Role
+              <select id="userRole">
+                <option value="staff">Staff</option>
+                <option value="admin">Admin</option>
+              </select>
+            </label>
+            <label class="checkbox-row"><input id="userActive" type="checkbox" checked> Active user</label>
+            <div class="button-row">
+              <button class="primary" type="submit">Save User</button>
+              <button id="resetUserFormButton" type="button">New</button>
+            </div>
+          </form>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Name</th><th>Username</th><th>Role</th><th>Status</th><th></th></tr></thead>
+            <tbody id="userTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="receiptDialog" class="receipt-dialog">
+    <div class="section-head">
+      <h2>Receipt</h2>
+      <button id="closeReceiptButton" type="button">Close</button>
+    </div>
+    <pre id="receiptText" class="receipt-text"></pre>
+    <div class="button-row">
+      <button id="printReceiptButton" class="primary" type="button">Print</button>
+      <button id="saveReceiptButton" type="button">Save .docx</button>
+    </div>
+  </dialog>
+
+  <template id="emptyTemplate">
+    <p class="empty">No records yet.</p>
+  </template>
+  <script src="app.js"></script>
+</body>
+</html>
+
